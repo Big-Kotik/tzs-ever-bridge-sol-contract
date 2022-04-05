@@ -1,0 +1,76 @@
+{
+	"ABI version": 2,
+	"version": "2.2",
+	"header": ["pubkey", "time"],
+	"functions": [
+		{
+			"name": "constructor",
+			"inputs": [
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "sendTransaction",
+			"inputs": [
+				{"components":[{"name":"recipient","type":"address"},{"name":"amount","type":"uint128"}],"name":"_transfer","type":"tuple"},
+				{"components":[{"name":"signHighPart","type":"uint256"},{"name":"signLowPart","type":"uint256"}],"name":"_signatures","type":"tuple[]"}
+			],
+			"outputs": [
+				{"name":"value0","type":"bool"}
+			]
+		},
+		{
+			"name": "setThreshold",
+			"inputs": [
+				{"name":"_threshold","type":"uint16"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "setTokenAddress",
+			"inputs": [
+				{"name":"_tokenAddress","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "setRelayPubkeys",
+			"inputs": [
+				{"name":"_relayPubKeys","type":"uint256[]"}
+			],
+			"outputs": [
+			]
+		}
+	],
+	"data": [
+	],
+	"events": [
+		{
+			"name": "Hash",
+			"inputs": [
+				{"name":"hash","type":"string"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "HashInt",
+			"inputs": [
+				{"name":"hash","type":"uint256"}
+			],
+			"outputs": [
+			]
+		}
+	],
+	"fields": [
+		{"name":"_pubkey","type":"uint256"},
+		{"name":"_timestamp","type":"uint64"},
+		{"name":"_constructorFlag","type":"bool"},
+		{"name":"threshold_","type":"uint16"},
+		{"name":"relayPubKeys_","type":"uint256[]"},
+		{"name":"tokenAddress_","type":"address"}
+	]
+}

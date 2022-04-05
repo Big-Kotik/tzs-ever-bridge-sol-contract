@@ -6,9 +6,9 @@ import "../interfaces/DemoToken.sol";
 import "../library/TokenContractFlags.sol";
 
 contract Quorum is Ownable {
-    uint16 static threshold_; //uint16?
+    uint16 threshold_; //uint16?
     uint256[] relayPubKeys_;
-    address static tokenAddress_;
+    address tokenAddress_;
     
     struct Transfer {
         address recipient;
@@ -25,10 +25,12 @@ contract Quorum is Ownable {
         tvm.accept();
     }
 
+    event Hash(string hash);
+    event HashInt(uint256 hash);
     /*
         @dev: External inbound message
     */
-    function sendTransaction(Transfer _transfer, Signature[] _signatures) view external {
+    function sendTransaction(Transfer _transfer, Signature[] _signatures) view external returns (bool) {
         require(_signatures.length == relayPubKeys_.length);
         tvm.accept();
         string representation = format("{}-{}", _transfer.recipient, _transfer.amount);
@@ -39,6 +41,7 @@ contract Quorum is Ownable {
                                         _signatures[i].signHighPart,
                                         _signatures[i].signLowPart, 
                                         relayPubKeys_[i]);
+
             if (signed) {
                 signatureCount++;
             }
@@ -46,7 +49,9 @@ contract Quorum is Ownable {
         if (signatureCount >= threshold_) {
             //mint and send
             DemoToken(tokenAddress_).mint{flag: TokenContractFlags.SENDER_PAYS_FEES, bounce: false} (_transfer.amount, _transfer.recipient);
-        }
+            return true;
+        } 
+        return false;
     }
     
     function setThreshold(uint16 _threshold) external onlyOwner {
